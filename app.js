@@ -1,6 +1,10 @@
-const express = require('express')               
+const express = require('express')          
 const app = express()              
 const mongoose =  require('mongoose')
+const exphbs = require('express-handlebars')
+
+app.engine('handlebars', exphbs({ defaultLayout: 'main'}))
+app.set('view engine', 'handlebars')
 
 mongoose.connect('mongodb://127.0.0.1/todo', {useNewUrlParser: true} )
 
@@ -19,7 +23,7 @@ const Todo = require('./models/todo')
 // 設定路由
 // Todo 首頁
 app.get('/', (req, res) => {
-	res.send('hello world!')
+	return res.render('index')
 })
 
 // 列出全部 Todo
