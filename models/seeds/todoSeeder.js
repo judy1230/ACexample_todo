@@ -11,9 +11,10 @@ db.on('error', () => {
 
 db.once('open', () => {
 	console.log('db connected!')
+	let person = ["jack", "1apple"]
 
-	for (let i=0; i<10; i++){
-		Todo.create({name:'name-'+i})
+	for (let item of person){
+		Todo.create({name:item})
 	}
 	console.log('done!')
 })
