@@ -7,9 +7,11 @@
 	{{#each todos}}
 	<li>
 		{{this.name}}
-		<a href="#">detail</a>
-		<a href="#">edit</a>
-		<button type="submit">delete</button>
+		<a href="/todos/{{{this.id}}}">detail</a>
+		<a href="/todos/{{{this.id}}}/edit">edit</a>
+		<form action='/todos/{{{this.id}}}/delete' method="POST" style="display: inline;">
+			<button type="submit">delete</button>
+		</form>
 	</li>
 	{{/each}}
 </ul>

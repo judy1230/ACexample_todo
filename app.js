@@ -51,27 +51,42 @@ app.post('/todos', (req, res) => {
 
 // 顯示一筆 Todo 的詳細內容
 app.get('/todos/:id', (req, res) => {
-	res.send('顯示 Todo 的詳細內容')
+	//req.params.id
+	Todo.findById(req.params.id, (err, todo)=>{
+		return res.render('detail', {todo: todo})
+	})
 })
 
-// 新增一筆  Todo
-app.post('/todos', (req, res) => {
-	res.send('建立 Todo')
-})
+
 
 // 修改 Todo 頁面
 app.get('/todos/:id/edit', (req, res) => {
-	res.send('修改 Todo 頁面')
+	Todo.findById(req.params.id, (err, todo) => {
+		return res.render('edit', { todo, todo })
+	})
 })
 
 // 修改 Todo
 app.post('/todos/:id', (req, res) => {
-	res.send('修改 Todo')
+	Todo.findById(req.params.id, (err, todo) => {
+		todo.name = req.body.name
+		console.log(todo.name)
+		todo.save((err) =>{
+			return res.redirect('/todos/'+ todo.id)
+		})
+		//return res.render('edit', { todo: todo })
+	})
 })
 
 // 刪除 Todo
 app.post('/todos/:id/delete', (req, res) => {
-	res.send('刪除 Todo')
+	Todo.findById(req.params.id, (err, todo) => {
+		if (err) return console.error(err)
+		todo.remove(err => {
+			if (err) return console.error(err)
+			return res.redirect('/')
+		})
+	})	
 })
 // 設定 express port 3000
 app.listen(3000, () => {
