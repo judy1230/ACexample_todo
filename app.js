@@ -2,9 +2,11 @@ const express = require('express')
 const app = express()              
 const mongoose =  require('mongoose')
 const exphbs = require('express-handlebars')
+const bodyParser = require('body-parser')
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main'}))
 app.set('view engine', 'handlebars')
+app.use(bodyParser.urlencoded({extended:true}))
 
 mongoose.connect('mongodb://127.0.0.1/todo', {useNewUrlParser: true} )
 
@@ -23,7 +25,9 @@ const Todo = require('./models/todo')
 // 設定路由
 // Todo 首頁
 app.get('/', (req, res) => {
-	return res.render('index')
+	Todo.find((err, todos)=>{
+		return res.render('index', {todos: todos})
+	})
 })
 
 // 列出全部 Todo
@@ -33,7 +37,16 @@ app.get('/todos', (req, res) => {
 
 // 新增一筆 Todo 頁面
 app.get('/todos/new', (req, res) => {
-	res.send('新增 Todo 頁面')
+	res.render('new')
+})
+app.post('/todos', (req, res) => {
+	const todo = Todo({
+		name: req.body.name
+	})
+	todo.save((err)=>{
+		if(err)return console.log(err)
+		return res.redirect('/')
+	})
 })
 
 // 顯示一筆 Todo 的詳細內容

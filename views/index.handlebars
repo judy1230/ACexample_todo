@@ -1,2 +1,15 @@
 <!-- ./views/index.handlebars -->
 <h2>hello world! 這是 index</h2>
+
+<a href="/todos/new">Create</a>
+
+<ul>
+	{{#each todos}}
+	<li>
+		{{this.name}}
+		<a href="#">detail</a>
+		<a href="#">edit</a>
+		<button type="submit">delete</button>
+	</li>
+	{{/each}}
+</ul>
