@@ -40,6 +40,7 @@ app.get('/todos/new', (req, res) => {
 	res.render('new')
 })
 app.post('/todos', (req, res) => {
+	console.log(req.body.name)
 	const todo = Todo({
 		name: req.body.name
 	})
@@ -53,6 +54,8 @@ app.post('/todos', (req, res) => {
 app.get('/todos/:id', (req, res) => {
 	//req.params.id
 	Todo.findById(req.params.id, (err, todo)=>{
+		console.log(req.params.id)
+		console.log('todo', todo)
 		return res.render('detail', {todo: todo})
 	})
 })
@@ -71,6 +74,12 @@ app.post('/todos/:id', (req, res) => {
 	Todo.findById(req.params.id, (err, todo) => {
 		todo.name = req.body.name
 		console.log(todo.name)
+		if(req.body.done){
+			todo.done = true
+		}
+		else{
+			todo.done = false
+		}
 		todo.save((err) =>{
 			return res.redirect('/todos/'+ todo.id)
 		})
