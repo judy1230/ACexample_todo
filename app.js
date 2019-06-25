@@ -4,17 +4,17 @@ const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
+const session = require('express-session')
+const passport = require('passport')
+ 
+const db = mongoose.connection
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
-const session = require('express-session')
-const passport = require('passport')
 
 mongoose.connect('mongodb://127.0.0.1/todo', { useNewUrlParser: true })
-
-const db = mongoose.connection
 
 db.on('error', () => {
 	console.log('mongodb error!')
@@ -26,7 +26,7 @@ db.once('open', () => {
 
 // 使用 express session 
 app.use(session({
-	secret: 'fasdfsdfjaskdjfads',   // secret: 定義一組自己的私鑰（字串)
+	secret: 'aaaaaaaaaaaaaaa',   // secret: 定義一組自己的私鑰（字串)
 }))
 // 使用 Passport 
 app.use(passport.initialize())

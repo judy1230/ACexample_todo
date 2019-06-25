@@ -1,6 +1,7 @@
 const express =  require('express')
 const router = express.Router()
 const passport = require('passport')
+const bcrypt = require('bcryptjs')
 const User = require('../models/user')
 
 //login
@@ -29,15 +30,14 @@ router.post('/register', (req, res) => {
 	const { name, email, password, password2 } =req.body
 	User.findOne({ email: email }).then((user)=> {
     if(user) {
-			// 如果 email 已經存在的話，將不能送出，並回到註冊表單頁面
+			console.log('User already exists')
 			res.render('/register', { //使用者已經註冊過將返回'/register'
 				name,
 				email,
 				password,
 				password2
 			})
-		}
-		else {
+		} else {
 			// 如果 email 不存在就新增使用者
       // 新增完成後導回首頁
 			const newUser = new User({
@@ -45,11 +45,25 @@ router.post('/register', (req, res) => {
 				email,
 				password
 			})
-			newUser.save().then((user) =>{
-				res.redirect('/')
-		  }).catch((err)=>{
-				console.log(err)
+
+			bcrypt.genSalt(10, (err, salt) => {
+				// 再用 hash 把鹽跟使用者的密碼配再一起，然後產生雜湊處理後的 hash
+				bcrypt.hash(newUser.password, salt, (err, hash) => {
+					if (err) throw err
+					newUser.password = hash
+
+					// 用 bcrypt 處理密碼後，再把它儲存起來
+					newUser
+						.save()
+						.then(user => {
+							res.redirect('/')
+						})
+						.catch(err => console.log(err))
+
+				})
+				
 			})
+	   
 		}
 	})
 })
