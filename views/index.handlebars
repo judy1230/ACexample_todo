@@ -11,8 +11,8 @@
 			</div>
 			<div class="col-auto">
 				<a href="/todos/{{{this.id}}}" class="btn btn-secondary">detail</a>
-				<a href="/todos/{{{this.id}}}/edit" class="btn btn-success">edit</a>
-				<form action='/todos/{{{this.id}}}/delete' method="POST" style="display: inline;">
+				<a href="/todos/{{{this.id}}}/edit?_method=PUT" class="btn btn-success">edit</a>
+				<form action='/todos/{{{this.id}}}/delete?_method=DELETE' method="POST" style="display: inline;">
 					<button type="submit" class="btn btn-danger">delete</button>
 				</form>
 			</div>
