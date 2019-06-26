@@ -1,5 +1,9 @@
 const express = require('express')
 const app = express()
+// 判別開發環境
+if (process.env.NODE_ENV !== 'production') {      // 如果不是 production 模式
+	require('dotenv').config()                      // 使用 dotenv 讀取 .env 檔案
+}
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
@@ -48,6 +52,7 @@ app.use((req, res, next) => {
 app.use('/', require('./routes/home.js'))
 app.use('/todos', require('./routes/todos.js'))
 app.use('/users', require('./routes/users.js'))
+app.use('/auth', require('./routes/auths'))
 
 // 設定 express port 3000
 app.listen(3000, () => {
