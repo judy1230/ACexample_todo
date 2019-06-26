@@ -14,7 +14,7 @@ app.set('view engine', 'handlebars')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
-mongoose.connect('mongodb://127.0.0.1/todo', { useNewUrlParser: true })
+mongoose.connect('mongodb://127.0.0.1/todo', { useNewUrlParser: true, useCreateIndex: true })
 
 db.on('error', () => {
 	console.log('mongodb error!')
@@ -26,7 +26,9 @@ db.once('open', () => {
 
 // 使用 express session 
 app.use(session({
-	secret: 'aaaaaaaaaaaaaaa',   // secret: 定義一組自己的私鑰（字串)
+	secret: 'aaaaaaaaaaaaaaa',
+	resave: 'false',
+	saveUninitialized: 'false'   // secret: 定義一組自己的私鑰（字串)
 }))
 // 使用 Passport 
 app.use(passport.initialize())
