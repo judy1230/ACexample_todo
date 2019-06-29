@@ -7,32 +7,47 @@ const User = require('../models/user')
 //login
 
 router.get('/login', (req, res)=> {
-	res.render('login')
+	//const { email, password } = req.body
+	let errors=[]
+	errors.push({message:req.flash('error')[0]})
+	if (errors[0].message === undefined) {
+		res.render('login')	
+	}	else {	
+	  res.render('login', {
+		errors
+	  })
+  }
 })
 
 //login submit //登入檢查
-router.post('/login', (req, res, next) =>{ 	
+router.post('/login', ( req, res, next) =>{ 	
+	if ((!req.body.email) || (!req.body.password)) {
+		req.flash('warning_msg', '所有欄位都是必填!')
+	}
 	passport.authenticate('local', {
 	  successRedirect: '/',
 		failureRedirect: '/users/login',
 		failureFlash: true,
 	})(req, res, next)
+
 })
 
 
 //register
 router.get('/register', (req, res) =>{
-  res.render('register')
+
+	res.render('register')
+	
 })
 
 router.post('/register', (req, res) => {
 	const { name, email, password, password2 } = req.body
-
 	// 加入錯誤訊息提示
 	let errors = []
 
 	if (!name || !email || !password || !password2) {
 		errors.push({ message: '所有欄位都是必填' })
+		console.log('email57', email)
 		//console.log('errors', errors)
 	}
 

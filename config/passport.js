@@ -8,14 +8,15 @@ const User = require('../models/user.js')
 module.exports =  passport => {
 	passport.use(
 		new LocalStrategy(
-			{ usernameField: 'email' }, (  email, password, done) =>{
+			{ usernameField: 'email' }, ( email, password, done) =>{
 				User.findOne({
 					email:email
-				}).then((user) => {
+				}).then((user,err) => {
+					if (err) { return done(err); }
 
 					if(!user){
 					
-						return done(null, false, {message: 'Email is not correct!'})
+						return done(null, false, { message: '帳號不正確, 請重新輸入!' }	)
 					}
 					  
 
@@ -25,7 +26,7 @@ module.exports =  passport => {
 						if (isMatch) {
 							return done(null, user)
 						} else {
-							return done(null, false, { message: 'Password is not correct!' })
+							return done(null, false, { message: '密碼不正確, 請重新輸入!' })
 					}
 					
 				})
