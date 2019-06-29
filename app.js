@@ -10,6 +10,7 @@ const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const session = require('express-session')
 const passport = require('passport')
+const flash = require('connect-flash') // 載入 connect-flash  
  
 const db = mongoose.connection
 
@@ -17,6 +18,7 @@ app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
+
 
 mongoose.connect('mongodb://127.0.0.1/todo', { useNewUrlParser: true, useCreateIndex: true })
 
@@ -41,12 +43,20 @@ app.use(passport.session())
 // 載入 Passport config
 require('./config/passport')(passport)
 
-// 登入後可以取得使用者的資訊方便我們在 view 裡面直接使用
-app.use((req, res, next) => {
+
+app.use(flash()) 
+
+app.use(( req, res, next) => {
 	res.locals.user = req.user
 	res.locals.isAuthenticated = req.isAuthenticated()
+	res.locals.success_msg = req.flash('success_msg')
+	res.locals.warning_msg = req.flash('warning_msg')
+	res.locals.errors =  [{message: req.flash('error')[0]}]
+  console.log('res.locals.errors', res.locals.errors)
 	next()
 })
+
+
 
 //const Todo = require('./models/todo')
 app.use('/', require('./routes/home.js'))
