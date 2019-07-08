@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
 
-mongoose.connect('mongodb://127.0.0.1/todo', { useNewUrlParser: true, useCreateIndex: true })
+mongoose.connect(process.env.MONGODB_URL || 'mongodb://localhost/todo', { useNewUrlParser: true, useCreateIndex: true })
 
 db.on('error', () => {
 	console.log('mongodb error!')
@@ -63,6 +63,6 @@ app.use('/users', require('./routes/users.js'))
 app.use('/auth', require('./routes/auths'))
 
 // 設定 express port 3000
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
 	console.log('App is running')
 })
