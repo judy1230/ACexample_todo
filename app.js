@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/todo', { useNewUrlParser: true, useCreateIndex: true })
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1/todo', { useNewUrlParser: true, useCreateIndex: true })
 
 db.on('error', () => {
 	console.log('mongodb error!')
