@@ -71,7 +71,7 @@ app.use(( req, res, next) => {
 app.use('/', require('./routes/home.js'))
 app.use('/todos', require('./routes/todos.js'))
 app.use('/users', require('./routes/users.js'))
-app.use('/auth', require('./routes/auths'))
+//app.use('/auth', require('./routes/auths'))
 
 // 設定 express port 3000
 app.listen(process.env.PORT || 3000, () => {
