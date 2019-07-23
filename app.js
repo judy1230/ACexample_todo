@@ -56,22 +56,22 @@ app.use(( req, res, next) => {
 	next()
 })
 
-app.get('/users/register', (req, res) => {
-	res.render('register')
-})
-app.post('/users/register', (req, res) => {
-	User.create({
-		name: req.body.name,
-		email: req.body.email,
-		password: req.body.password
-	}).then(user => res.redirect('/'))
-})
+// app.get('/users/register', (req, res) => {
+// 	res.render('register')
+// })
+// app.post('/users/register', (req, res) => {
+// 	User.create({
+// 		name: req.body.name,
+// 		email: req.body.email,
+// 		password: req.body.password
+// 	}).then(user => res.redirect('/'))
+// })
 
 //const Todo = require('./models/todo')
-// app.use('/', require('./routes/home.js'))
-// app.use('/todos', require('./routes/todos.js'))
-// app.use('/users', require('./routes/users.js'))
-// app.use('/auth', require('./routes/auths'))
+app.use('/', require('./routes/home.js'))
+app.use('/todos', require('./routes/todos.js'))
+app.use('/users', require('./routes/users.js'))
+app.use('/auth', require('./routes/auths'))
 
 // 設定 express port 3000
 app.listen(process.env.PORT || 3000, () => {
