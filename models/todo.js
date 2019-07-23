@@ -1,25 +1,12 @@
-const mongoose = require('mongoose')
-const Schema =  mongoose.Schema
-
-const todoSchema = new Schema({
-	name:{
-		type: String,
-		require: true
-	},
-	done: {
-		type:Boolean,
-		default:false
-	},
-	userId: {
-		type: Schema.Types.ObjectId,
-		ref: 'User',
-		index: true,
-		required: true
-	}
-
-})
-
-module.exports = mongoose.model('Todo', todoSchema)
-
-
-
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  const Todo = sequelize.define('Todo', {
+    name: DataTypes.STRING,
+    done: DataTypes.BOOLEAN
+  }, {});
+  Todo.associate = function (models) {
+    // associations can be defined here
+    Todo.belongsTo(models.User)
+  };
+  return Todo;
+};
