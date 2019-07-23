@@ -1,7 +1,9 @@
 // routes/todo.js
 const express = require('express')
 const router = express.Router()
-const Todo = require('../models/todo')
+const db = require('../models')
+const Todo = db.Todo
+const User = db.User
 const { authenticated } = require('../config/auth.js')
 
 // 新增一筆 Todo 頁面

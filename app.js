@@ -75,5 +75,6 @@ app.use('/auth', require('./routes/auths'))
 
 // 設定 express port 3000
 app.listen(process.env.PORT || 3000, () => {
+	db.sequelize.sync()
 	console.log('App is running')
 })
