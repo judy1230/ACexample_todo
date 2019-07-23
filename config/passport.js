@@ -1,17 +1,16 @@
+const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy  // 載入 passport-local
 const FacebookStrategy = require('passport-facebook').Strategy  // 載入 passport-facebook
-const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
-const User = require('../models/user.js')            
+const db = require('../models')
+const User = db.User           
     
 
 module.exports =  passport => {
 	passport.use(
 		new LocalStrategy(
 			{ usernameField: 'email' }, ( email, password, done) =>{
-				User.findOne({
-					email:email
-				}).then((user,err) => {
+				User.findOne({ where: { email: email } }).then((user,err) => {
 					if (err) { return done(err); }
 
 					if(!user){
@@ -20,16 +19,20 @@ module.exports =  passport => {
 					}
 					  
 
-					bcrypt.compare(password, user.password, (err, isMatch) => {
+					// bcrypt.compare(password, user.password, (err, isMatch) => {
 						
-						if (err) throw err;
-						if (isMatch) {
-							return done(null, user)
-						} else {
-							return done(null, false, { message: '密碼不正確, 請重新輸入!' })
+					// 	if (err) throw err;
+					// 	if (isMatch) {
+					// 		return done(null, user)
+					// 	} else {
+					// 		return done(null, false, { message: '密碼不正確, 請重新輸入!' })
+					// }
+					if (user.password != password) {
+						console.log('user password not correct.')
+						return done(null, false, { message: 'Email or Password incorrect' })
 					}
-					
-				})
+					return done(null, user)
+				//})
 			})
 		})	
 	)
@@ -76,7 +79,7 @@ module.exports =  passport => {
 	});
 
 	passport.deserializeUser(function (id, done) {
-		User.findById(id, function (err, user) {
+		User.findByPk(id, function (err, user) {
 			done(err, user);
 		});
 	});
