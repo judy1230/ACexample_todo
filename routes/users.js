@@ -3,7 +3,6 @@ const router = express.Router()
 const passport = require('passport')
 const bcrypt = require('bcryptjs')
 const db = require('../models/index')
-const Todo = db.Todo
 const User = db.User
 
 //login

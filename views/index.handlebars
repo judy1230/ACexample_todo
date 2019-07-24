@@ -2,27 +2,7 @@
 {{> messages}}
 <a href="/todos/new" class="btn btn-primary mb-3">Create</a>
 
-<div class="dropdown col-4">
-	<button class="btn btn-secondary dropdown-toggle col-12" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-		aria-haspopup="true" aria-expanded="false">
-		月份
-	</button>
-	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-		<a class="dropdown-item" href="/records/filter?mon=1">一月</a>
-		<a class="dropdown-item" href="/records/filter?mon=2">二月</a>
-		<a class="dropdown-item" href="/records/filter?mon=3">三月</a>
-		<a class="dropdown-item" href="/records/filter?mon=4">四月</a>
-		<a class="dropdown-item" href="/records/filter?mon=5">五月</a>
-		<a class="dropdown-item" href="/records/filter?mon=6">六月</a>
-		<a class="dropdown-item" href="/records/filter?mon=7">七月</a>
-		<a class="dropdown-item" href="/records/filter?mon=8">八月</a>
-		<a class="dropdown-item" href="/records/filter?mon=9">九月</a>
-		<a class="dropdown-item" href="/records/filter?mon=10">十月</a>
-		<a class="dropdown-item" href="/records/filter?mon=11">十一月</a>
-		<a class="dropdown-item" href="/records/filter?mon=12">十二月</a>
-	</div>
-</div>
-	
+
 <ul>
 	{{#each todos}}
 	<li class="list-group-item">
